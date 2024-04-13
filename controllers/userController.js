@@ -16,7 +16,12 @@ exports.createUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const newUser = await User.create({ name, email, password });
-    res.status(201).json(newUser);
+
+    // Após criar o usuário com sucesso, gera um token JWT para esse usuário
+    const token = generateToken(newUser);
+
+    // Retorna o token JWT junto com a resposta de criação do usuário
+    res.status(201).json({ newUser, token });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
