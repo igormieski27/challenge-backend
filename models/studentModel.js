@@ -1,4 +1,3 @@
-// models/studentModel.js
 const knex = require("knex");
 
 const db = knex({

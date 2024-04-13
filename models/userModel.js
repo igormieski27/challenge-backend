@@ -1,4 +1,3 @@
-// models/userModel.js
 const knex = require("knex");
 const bcrypt = require("bcrypt");
 
@@ -18,7 +17,7 @@ class User {
   }
 
   static async create(user) {
-    user.password = await bcrypt.hash(user.password, 10); // Hash da senha com bcrypt
+    user.password = await bcrypt.hash(user.password, 10);
     return await db("users").insert(user).returning("*");
   }
 

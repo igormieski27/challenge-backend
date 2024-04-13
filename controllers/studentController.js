@@ -1,6 +1,5 @@
 const Student = require("../models/studentModel");
 
-// Controller function to get all students
 exports.getStudents = async (req, res) => {
   try {
     const students = await Student.getAll();
@@ -10,7 +9,6 @@ exports.getStudents = async (req, res) => {
   }
 };
 
-// Controller function to create a new student
 exports.createStudent = async (req, res) => {
   try {
     const { name, email, cpf } = req.body;
@@ -21,7 +19,6 @@ exports.createStudent = async (req, res) => {
   }
 };
 
-// Controller function to update a student by ID
 exports.updateStudent = async (req, res) => {
   try {
     const { id } = req.params;
@@ -36,7 +33,6 @@ exports.updateStudent = async (req, res) => {
   }
 };
 
-// Controller function to delete a student by ID
 exports.deleteStudent = async (req, res) => {
   try {
     const { id } = req.params;

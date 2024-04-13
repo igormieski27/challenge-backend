@@ -23,7 +23,13 @@ exports.createUser = async (req, res) => {
     // Retorna o token JWT junto com a resposta de criação do usuário
     res.status(201).json({ newUser, token });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    if (error.message.includes("users_email_unique")) {
+      // Se o erro for de violação de chave única (email duplicado), retorne um status 409 (Conflito)
+      res.status(409).json({ error: "Email already exists" });
+    } else {
+      // Se for outro tipo de erro, retorne o status 500 (Erro interno do servidor)
+      res.status(500).json({ error: error.message });
+    }
   }
 };
 
