@@ -1,15 +1,7 @@
 const knex = require("knex");
 const bcrypt = require("bcrypt");
-
-const db = knex({
-  client: "pg",
-  connection: {
-    host: "localhost",
-    user: "postgres",
-    password: "postgres",
-    database: "grupoa_crud",
-  },
-});
+const knexConfig = require("./knexfile").development;
+const db = knex(knexConfig);
 
 class User {
   static async getAll() {
