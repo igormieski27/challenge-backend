@@ -1,7 +1,6 @@
 const User = require("../models/userModel");
 const { generateToken } = require("../middlewares/helpers/jwtHelper");
 
-// Controller function to get all users
 exports.getUsers = async (req, res) => {
   try {
     const users = await User.getAll();
@@ -11,29 +10,21 @@ exports.getUsers = async (req, res) => {
   }
 };
 
-// Controller function to create a new user
 exports.createUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const newUser = await User.create({ name, email, password });
-
-    // Após criar o usuário com sucesso, gera um token JWT para esse usuário
     const token = generateToken(newUser);
-
-    // Retorna o token JWT junto com a resposta de criação do usuário
     res.status(201).json({ newUser, token });
   } catch (error) {
     if (error.message.includes("users_email_unique")) {
-      // Se o erro for de violação de chave única (email duplicado), retorne um status 409 (Conflito)
       res.status(409).json({ error: "Email already exists" });
     } else {
-      // Se for outro tipo de erro, retorne o status 500 (Erro interno do servidor)
       res.status(500).json({ error: error.message });
     }
   }
 };
 
-// Controller function to update a user by ID
 exports.updateUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -48,7 +39,6 @@ exports.updateUser = async (req, res) => {
   }
 };
 
-// Controller function to delete a user by ID
 exports.deleteUser = async (req, res) => {
   try {
     const { id } = req.params;

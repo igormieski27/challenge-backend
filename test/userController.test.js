@@ -8,17 +8,6 @@ chai.use(chaiHttp);
 
 describe("User Authentication", () => {
   let createdUserId;
-  it("deve retornar 200 para login válido", async () => {
-    const res = await chai
-      .request(app)
-      .post("/users/login")
-      .send({ email: "testelogin", password: "testelogin" });
-
-    expect(res).to.have.status(200);
-    expect(res.body).to.have.property("token");
-    expect(res.body).to.have.property("user");
-    expect(res.body.message).to.equal("Login successful");
-  });
 
   it("deve retornar 401 para login inválido", async () => {
     const res = await chai
@@ -35,7 +24,7 @@ describe("User Authentication", () => {
     const res = await chai
       .request(app)
       .post("/users")
-      .send({ name: "Igor", email: "igormieski27@gmail.com", password: "123" });
+      .send({ name: "Igor", email: "testelogin", password: "zap" });
 
     expect(res).to.have.status(409);
     expect(res.body.error).to.equal("Email already exists");
@@ -51,10 +40,18 @@ describe("User Authentication", () => {
     createdUserId = res.body.newUser[0].id;
   });
 
-  afterEach(async () => {
+  it("deve retornar 200 para login válido", async () => {
+    const res = await chai.request(app).post("/users/login").send({
+      email: "test3@gmail.com",
+      password: "1233",
+    });
+
+    expect(res).to.have.status(200);
+    expect(res.body).to.have.property("token");
+    expect(res.body).to.have.property("user");
+    expect(res.body.message).to.equal("Login successful");
     if (createdUserId) {
       const deleted_user = await model.delete(createdUserId);
-      console.log(deleted_user);
     }
   });
 });
